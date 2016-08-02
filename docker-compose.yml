@@ -1,0 +1,16 @@
+version: '2'
+services:
+  spring:
+    build: .
+    ports: 
+    - "8181:8181"
+    links:
+    - zookeeper
+    environment: 
+    - 'SPRING_APPLICATION_JSON={"spring":{"cloud":{"zookeeper":{"connect-string":"zookeeper:2181"}}}}'
+  zookeeper:
+    image: netflixoss/exhibitor:1.5.2
+    ports:
+    - "8080:8080" 
+    expose:
+    -  "2181"
