@@ -1,0 +1,13 @@
+server.port: 8181
+spring:
+  application:
+    name: zk-playground
+  cloud:
+    zookeeper:
+      config:
+        enabled: true
+        root: configuration
+        defaultContext: apps
+        profileSeparator: '::'
+
+logging.level.org.springframework.cloud.zookeeper: TRACE
