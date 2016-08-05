@@ -2,6 +2,7 @@ package io.pturczyk.playground.zk;
 
 import org.apache.curator.framework.CuratorFramework;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.zookeeper.config.ZookeeperConfigProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,9 @@ public class PropertyController {
     private Environment env;
 
     @Autowired
+    private ZookeeperConfigProperties zkProperties;
+
+    @Autowired
     private CuratorFramework client;
 
     @RequestMapping(value = "/env-property/{name}", method = RequestMethod.GET)
@@ -26,7 +30,8 @@ public class PropertyController {
 
     @RequestMapping(value = "/zk-property/{name}", method = RequestMethod.GET)
     public String getZkProperty(@PathVariable("name") String name) throws Exception {
-        return Arrays.toString(client.getData().forPath(name));
+        return Arrays.toString(client.getData().forPath("/" + zkProperties.getRoot() + "/" + name));
+
     }
 
 }
